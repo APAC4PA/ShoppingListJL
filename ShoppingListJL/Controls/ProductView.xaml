@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShoppingListJL.Controls.ProductView"
+             xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             xmlns:converters="clr-namespace:ShoppingListJL.Converters;assembly=ShoppingListJL"
+             x:Name="root">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:StringBoolConverter x:Key="StringBoolConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <HorizontalStackLayout Spacing="8" Padding="6" VerticalOptions="Center">
+        <Label Text="{Binding Name}" FontAttributes="Bold" VerticalOptions="Center" />
+        <Editor Text="{Binding Quantity}" VerticalOptions="Center" WidthRequest="60"/>
+        <Button Text="+"
+                Command="{Binding IncrementQuantityCommand, Source={x:Reference root}}"
+                CommandParameter="{Binding .}"
+                HeightRequest="48"
+                HorizontalOptions="End" />
+        <Button Text="-"
+                Command="{Binding DecrementQuantityCommand, Source={x:Reference root}}"
+                CommandParameter="{Binding .}"
+                HeightRequest="48"
+                HorizontalOptions="Start" />
+        <Label Text="{Binding Unit}" VerticalOptions="Center" />
+        <Label Text="{Binding Store}" VerticalOptions="Center" HorizontalOptions="Start" />
+
+        <CheckBox x:Name="OptionalRadio"
+                  VerticalOptions="Center"
+                  IsChecked="{Binding Optional, Converter={StaticResource StringBoolConverter}, Mode=TwoWay}">
+            <CheckBox.Behaviors>
+                <behaviors:EventToCommandBehavior
+                    EventName="CheckedChanged"
+                    Command="{Binding OptionalItemCommand, Source={x:Reference root}}"
+                    CommandParameter="{Binding .}" />
+            </CheckBox.Behaviors>
+        </CheckBox>
+
+        <Button Text="✓"
+                Command="{Binding CheckCommand, Source={x:Reference root}}"
+                CommandParameter="{Binding .}"
+                BackgroundColor="Transparent"
+                TextColor="Green"
+                VerticalOptions="Center" />
+        <Button Text="Usuń"
+                Command="{Binding DeleteCommand, Source={x:Reference root}}"
+                CommandParameter="{Binding .}"
+                BackgroundColor="Transparent"
+                TextColor="Red"
+                VerticalOptions="Center" />
+    </HorizontalStackLayout>
+</ContentView>

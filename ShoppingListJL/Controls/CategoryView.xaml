@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:ShoppingListJL.ViewModels"
+             xmlns:controls="clr-namespace:ShoppingListJL.Controls"
+             x:Class="ShoppingListJL.Controls.CategoryView"
+             x:Name="root">
+    <ContentView.Resources>
+        <ViewModels:ProductsViewModel x:Key="ProductsVM" />
+    </ContentView.Resources>
+
+    <VerticalStackLayout Padding="16" Spacing="12" HorizontalOptions="FillAndExpand">
+        <Border Stroke="MediumPurple"
+                StrokeThickness="3"
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="Transparent"
+                Padding="12"
+                HorizontalOptions="FillAndExpand">
+            <VerticalStackLayout Spacing="10">
+                <Grid ColumnDefinitions="*, Auto, Auto" Padding="0,4">
+                    <Label
+                        Text="{Binding Name}"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center"
+                        HorizontalTextAlignment="Start"/>
+                    <Button
+                        Grid.Column="1"
+                        Text="Usuń"
+                        Command="{Binding DeleteCategoryCommand, Source={x:Reference root}}"
+                        CommandParameter="{Binding .}"
+                        BackgroundColor="Transparent"
+                        TextColor="Red"
+                        VerticalOptions="Center"/>
+                    <Button
+                        Grid.Column="2"
+                        Text="🔽"
+                        Command="{Binding Source={StaticResource ProductsVM}, Path=ShowItemsCommand}"
+                        CommandParameter="{Binding .}"
+                        BackgroundColor="Transparent"
+                        TextColor="Blue"
+                        VerticalOptions="Center"/>
+                </Grid>
+
+                <CollectionView x:Name="ItemsCollection"
+                              ItemsSource="{Binding Products}"
+                              IsVisible="{Binding Source={StaticResource ProductsVM}, Path=IsShown}"
+                              SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ProductView BindingContext="{Binding}"
+                                                  CheckCommand="{Binding Source={StaticResource ProductsVM}, Path=CheckItemCommand}"
+                                                  DeleteCommand="{Binding Source={StaticResource ProductsVM}, Path=DeleteItemCommand}"
+                                                  IncrementQuantityCommand="{Binding Source={StaticResource ProductsVM}, Path=IncrementQuantityCommand}"
+                                                  DecrementQuantityCommand="{Binding Source={StaticResource ProductsVM}, Path=DecrementQuantityCommand}"
+                                                  OptionalItemCommand="{Binding Source={StaticResource ProductsVM}, Path=OptionalItemCommand}"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+
+                <Button Text="Dodaj produkt"
+                        Command="{Binding ShowNewItemForm, Source={StaticResource ProductsVM}}"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        HeightRequest="44"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,6,0,0" />
+
+                <Editor Text="{Binding NewName, Source={StaticResource ProductsVM}}"
+                        Placeholder="Nazwa produktu"
+                        AutoSize="TextChanges"
+                        HeightRequest="48"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,4,0,0"
+                        IsVisible="{Binding IsAdding, Source={StaticResource ProductsVM}}"/>
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8" HorizontalOptions="FillAndExpand">
+                    <Editor Grid.Column="0"
+                            Text="{Binding NewQuantity, Source={StaticResource ProductsVM}}"
+                            Placeholder="Ilość"
+                            Keyboard="Numeric"
+                            HeightRequest="48"
+                            IsVisible="{Binding IsAdding, Source={StaticResource ProductsVM}}"
+                            HorizontalOptions="FillAndExpand" />
+                    <Editor Grid.Column="1"
+                            Text="{Binding NewUnit, Source={StaticResource ProductsVM}}"
+                            Placeholder="Jednostka"
+                            HeightRequest="48"
+                            IsVisible="{Binding IsAdding, Source={StaticResource ProductsVM}}"
+                            HorizontalOptions="FillAndExpand" />
+                    <Editor Grid.Column="2"
+                            Text="{Binding NewStore, Source={StaticResource ProductsVM}}"
+                            Placeholder="Sklep"
+                            HeightRequest="48"
+                            IsVisible="{Binding IsAdding, Source={StaticResource ProductsVM}}"
+                            HorizontalOptions="FillAndExpand" />
+                </Grid>
+
+                <Button Text="Zapisz produkt"
+                        Command="{Binding AddNewItem, Source={StaticResource ProductsVM}}"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        HeightRequest="44"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,6,0,0"
+                        IsVisible="{Binding IsAdding, Source={StaticResource ProductsVM}}"/>
+                <Button Text="Anuluj"
+                        Command="{Binding Close, Source={StaticResource ProductsVM}}"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        HeightRequest="44"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,6,0,0"
+                        IsVisible="{Binding IsAdding, Source={StaticResource ProductsVM}}"/>
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

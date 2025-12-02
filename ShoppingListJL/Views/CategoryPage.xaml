@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShoppingListJL.Views.CategoryPage"
+             xmlns:ViewModels="clr-namespace:ShoppingListJL.ViewModels"
+             xmlns:controls="clr-namespace:ShoppingListJL.Controls">
+    <ContentPage.BindingContext>
+        <ViewModels:CategoriesViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, Auto, *" ColumnDefinitions="*">
+        <Button Grid.Row="0"
+                HeightRequest="50"
+                Text="Produkty wg sklepu"
+                Command="{Binding NavigateToStoresCommand}" />
+
+        <Button Grid.Row="1"
+                HeightRequest="50"
+                Text="Add Category"
+                Command="{Binding AddCategoryCommand}" />
+
+        <CollectionView x:Name="CategoriesCollectionView"
+                        Grid.Row="2"
+                        ItemsSource="{Binding Categories}"
+                        Margin="12">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <HorizontalStackLayout Spacing="12" Padding="6">
+                        <controls:CategoryView
+                            BindingContext="{Binding .}"
+                            DeleteCategoryCommand="{Binding BindingContext.DeleteCategoryCommand, Source={x:Reference CategoriesCollectionView}}" />
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

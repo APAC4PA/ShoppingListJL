@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShoppingListJL.Views.RecipesPage"
+             x:Name="RootPage"
+             xmlns:vm="clr-namespace:ShoppingListJL.ViewModels">
+    <ContentPage.BindingContext>
+        <vm:RecipesViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="12" RowSpacing="8">
+        <Label Text="Przepisy" FontAttributes="Bold" FontSize="20" />
+        <Frame Grid.Row="1" Padding="8" HasShadow="False" BorderColor="#DDD">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Dodaj nowy przepis" FontAttributes="Bold" />
+                <Entry Placeholder="Nazwa przepisu" Text="{Binding NewRecipeName}" />
+
+                <HorizontalStackLayout Spacing="8">
+                    <Entry Placeholder="Składnik (nazwa)" Text="{Binding NewIngredientName}" HorizontalOptions="FillAndExpand" />
+                    <Entry Placeholder="Ilość" Text="{Binding NewIngredientQuantity}" WidthRequest="80" />
+                    <Entry Placeholder="Jednostka" Text="{Binding NewIngredientUnit}" WidthRequest="80" />
+                    <Entry Placeholder="Sklep" Text="{Binding NewIngredientStore}" WidthRequest="120" />
+                    <Button Text="Dodaj" Command="{Binding AddIngredientCommand}" />
+                </HorizontalStackLayout>
+
+                <CollectionView ItemsSource="{Binding NewIngredients}" HeightRequest="100" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                <Label Text="{Binding Name}" HorizontalOptions="StartAndExpand" />
+                                <Label Text="{Binding Quantity}" />
+                                <Label Text="{Binding Unit}" />
+                                <Label Text="{Binding Store}" />
+                                <Button Text="Usuń" Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.RemoveIngredientCommand}" CommandParameter="{Binding .}" />
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="Dodaj przepis" Command="{Binding CreateRecipeCommand}" HorizontalOptions="End" />
+            </VerticalStackLayout>
+        </Frame>
+        <Picker Grid.Row="2"
+                Title="Wybierz listę (globalnie)"
+                ItemsSource="{Binding Lists}"
+                SelectedItem="{Binding SelectedList}"
+                HorizontalOptions="Fill" />
+
+        <CollectionView Grid.Row="3"
+                        ItemsSource="{Binding Recipes}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeThickness="1" Padding="8" Margin="0,0,0,8">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Picker Title="Do której listy dodać?"
+                                    ItemsSource="{Binding Source={x:Reference RootPage}, Path=BindingContext.Lists}"
+                                    SelectedItem="{Binding TargetList}"
+                                    HorizontalOptions="FillAndExpand"
+                                    Margin="0,6,0,6" />
+                            <CollectionView ItemsSource="{Binding Ingredients}" SelectionMode="None" HeightRequest="120">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label Text="{Binding Name}" HorizontalOptions="StartAndExpand" />
+                                            <Label Text="{Binding Quantity}" />
+                                            <Label Text="{Binding Unit}" />
+                                            <Label Text="{Binding Store}" />
+                                        </HorizontalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <HorizontalStackLayout Spacing="12" HorizontalOptions="End">
+                                <Button Text="Import" Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.ImportRecipeCommand}" CommandParameter="{Binding .}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

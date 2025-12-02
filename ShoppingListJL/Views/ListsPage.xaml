@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:ShoppingListJL.ViewModels"
+             xmlns:controls="clr-namespace:ShoppingListJL.Controls"
+             x:Class="ShoppingListJL.ListsPage">
+
+    <ContentPage.BindingContext>
+        <ViewModels:ShoppingListsViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Add"
+            Command="{Binding NewShoppingList}"
+            IconImageSource="{FontImage Glyph='+', Size=22, Color=Black}" />
+        <ToolbarItem
+            Text="Export"
+            Command="{Binding ExportSelectedListCommand}"
+            Order="Secondary"/>
+        <ToolbarItem
+            Text="Import"
+            Command="{Binding ImportListsCommand}"
+            Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+    <Grid RowDefinitions="Auto, *" ColumnDefinitions="*">
+        <Label Text="Listy" FontSize="32" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,12,0,12"/>
+
+        <CollectionView x:Name="ListsCollectionView"
+                        Grid.Row="1"
+                        ItemsSource="{Binding AllShoppingLists}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedList, Mode=TwoWay}"
+                        Margin="20"
+                        SelectionChangedCommand="{Binding SelectList}"
+                        SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference ListsCollectionView}}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <HorizontalStackLayout Spacing="12" Padding="6">
+                        <Label Text="{Binding Name}" FontSize="24" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
+                        <Button Text="Usuń"
+                                Command="{Binding BindingContext.DeleteListCommand, Source={x:Reference ListsCollectionView}}"
+                                CommandParameter="{Binding .}"
+                                BackgroundColor="Transparent"
+                                TextColor="Red"
+                                VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
