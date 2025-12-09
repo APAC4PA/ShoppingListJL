@@ -20,15 +20,15 @@ namespace ShoppingListJL.Models
 
         public void AddProduct(Product p)
         {
-            int copyNr = 0;
+            int NbrOfCopies = 0;
             foreach (var item in Products)
             {
                 if (item.Name.Contains(p.Name) || (item.Name.Contains(p.Name) && (item.Name.Substring(item.Name.Length - 4)).Contains(" ")))
-                    copyNr++;
+                    NbrOfCopies++;
             }
-            if (copyNr > 0)
+            if (NbrOfCopies > 0)
             {
-                p.Name += $" ({copyNr})";
+                p.Name += $" ({NbrOfCopies})";
             }
             Products.Add(p);
             ParentList?.Save();

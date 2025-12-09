@@ -18,19 +18,19 @@ namespace ShoppingListJL.Models
         public void AddCategory(Category c)
         {
             if (c == null) return;
-            int copyNr = 0;
+            int NbrOfCopies = 0;
             foreach (var cat in Categories)
             {
                 if (cat.Name.Contains(c.Name) || (cat.Name.Contains(c.Name) && (cat.Name.Substring(cat.Name.Length - 4)).Contains(" ")))
                 {
-                    copyNr++;
+                    NbrOfCopies++;
                     Trace.WriteLine($"Existing category: {cat.Name}");
                     Trace.WriteLine($"Category: {c.Name}");
                 }
             }
-            if (copyNr > 0)
+            if (NbrOfCopies > 0)
             {
-                c.Name += $" ({copyNr})";
+                c.Name += $" ({NbrOfCopies})";
             }
             c.ParentList = this;
             Categories.Add(c);

@@ -7,7 +7,7 @@
 
     <HorizontalStackLayout Spacing="8" Padding="6" VerticalOptions="Center">
         <Frame Padding="0" BackgroundColor="Transparent" BorderColor="Transparent">
-        <VerticalStackLayout Spacing="8" Padding="6" VerticalOptions="Center">
+            <VerticalStackLayout Spacing="8" Padding="6" VerticalOptions="Center">
                 <Label Text="{Binding Name}" FontSize="20">
                     <Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding Bought}" Value="True">
@@ -17,13 +17,13 @@
                     </Label.Triggers>
                 </Label>
                 <Label Text="Opcjonalne" TextColor="Orange" FontSize="12">
-                <Label.Triggers>
+                    <Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding Optional}" Value="False">
                             <Setter Property="IsVisible" Value="False"/>
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>
-        </VerticalStackLayout>
+            </VerticalStackLayout>
         </Frame>
         <Editor Text="{Binding Quantity}" VerticalOptions="Center" WidthRequest="60"/>
         <Button Text="+"
@@ -51,7 +51,7 @@
                 BackgroundColor="Transparent"
                 TextColor="Red"
                 VerticalOptions="Center" />
-        <Button Text="Make optional"
+        <Button Text="Zmień opcjonalność"
                 Command="{Binding OptionalItemCommand, Source={x:Reference root}}"
                 CommandParameter="{Binding .}"
                 BackgroundColor="Transparent"
