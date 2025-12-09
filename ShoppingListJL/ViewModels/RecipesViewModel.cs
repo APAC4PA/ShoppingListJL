@@ -34,6 +34,12 @@ namespace ShoppingListJL.ViewModels
             get => _newRecipeName;
             set => SetProperty(ref _newRecipeName, value);
         }
+        private string _newRecipeDescription = string.Empty;
+        public string NewRecipeDescription
+        {
+            get => _newRecipeDescription;
+            set => SetProperty(ref _newRecipeDescription, value);
+        }
 
         private string _newIngredientName = string.Empty;
         public string NewIngredientName
@@ -88,17 +94,17 @@ namespace ShoppingListJL.ViewModels
                 Trace.WriteLine("B³¹d ³adowania list zakupów.");
             }
 
-            Recipes.Add(new Recipe("Naleœniki", new[]
+            Recipes.Add(new Recipe("Naleœniki", "Opis przepisu na naleœniki", new[]
             {
-                new Product { Name = "M¹ka", Quantity = "200", Unit = "g", Optional = "false", Store = "Biedronka" },
-                new Product { Name = "Mleko", Quantity = "300", Unit = "ml", Optional = "false", Store = "Biedronka" },
-                new Product { Name = "Jajko", Quantity = "2", Unit = "szt", Optional = "false", Store = "Biedronka" }
+                new Product { Name = "M¹ka", Quantity = "200", Unit = "g", Optional = false, Store = "Biedronka" },
+                new Product { Name = "Mleko", Quantity = "300", Unit = "ml", Optional = false, Store = "Biedronka" },
+                new Product { Name = "Jajko", Quantity = "2", Unit = "szt", Optional = false, Store = "Biedronka" }
             }));
-            Recipes.Add(new Recipe("Sa³atka grecka", new[]
+            Recipes.Add(new Recipe("Sa³atka grecka", "Opis przepisu na sa³atkê greck¹", new[]
             {
-                new Product { Name = "Pomidor", Quantity = "2", Unit = "szt", Optional = "false", Store = "Lidl" },
-                new Product { Name = "Ogórek", Quantity = "1", Unit = "szt", Optional = "false", Store = "Lidl" },
-                new Product { Name = "Feta", Quantity = "150", Unit = "g", Optional = "true", Store = "Lidl" }
+                new Product { Name = "Pomidor", Quantity = "2", Unit = "szt", Optional = false, Store = "Lidl" },
+                new Product { Name = "Ogórek", Quantity = "1", Unit = "szt", Optional = false, Store = "Lidl" },
+                new Product { Name = "Feta", Quantity = "150", Unit = "g", Optional = true, Store = "Lidl" }
             }));
         }
 
@@ -123,7 +129,7 @@ namespace ShoppingListJL.ViewModels
                 Name = NewIngredientName,
                 Quantity = NewIngredientQuantity ?? string.Empty,
                 Unit = NewIngredientUnit ?? string.Empty,
-                Optional = "false",
+                Optional = false,
                 Store = NewIngredientStore ?? string.Empty
             };
             NewIngredients.Add(p);
@@ -144,7 +150,7 @@ namespace ShoppingListJL.ViewModels
         {
             if (string.IsNullOrWhiteSpace(NewRecipeName) || NewIngredients.Count == 0) return;
 
-            var recipe = new Recipe(NewRecipeName, NewIngredients.ToList());
+            var recipe = new Recipe(NewRecipeName, NewRecipeDescription, NewIngredients.ToList());
             Recipes.Add(recipe);
 
             NewRecipeName = string.Empty;

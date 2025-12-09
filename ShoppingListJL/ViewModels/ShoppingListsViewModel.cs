@@ -191,7 +191,9 @@ namespace ShoppingListJL.ViewModels
                                 Name = pEl.Element("Name")?.Value ?? "",
                                 Quantity = pEl.Element("Quantity")?.Value ?? "",
                                 Unit = pEl.Element("Unit")?.Value ?? "",
-                                Optional = pEl.Element("Optional")?.Value ?? ""
+                                Optional = bool.Parse(pEl.Element("Optional")?.Value),
+                                Store = pEl.Element("Store")?.Value ?? "",
+                                Bought = bool.Parse(pEl.Element("Bought")?.Value)
                             });
                         }
 

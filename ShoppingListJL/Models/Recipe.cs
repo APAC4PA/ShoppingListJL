@@ -6,6 +6,7 @@ namespace ShoppingListJL.Models
     internal class Recipe : ObservableObject
     {
         public string Name { get; set; } = string.Empty;
+        public string Description{ get; set; } = string.Empty;
         public List<Product> Ingredients { get; } = new List<Product>();
 
         private string _targetList = string.Empty;
@@ -17,9 +18,10 @@ namespace ShoppingListJL.Models
 
         public Recipe() { }
 
-        public Recipe(string name, IEnumerable<Product> ingredients)
+        public Recipe(string name, string description, IEnumerable<Product> ingredients)
         {
             Name = name;
+            Description = description;
             Ingredients.AddRange(ingredients);
         }
     }

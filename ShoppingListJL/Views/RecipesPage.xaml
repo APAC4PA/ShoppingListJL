@@ -14,6 +14,8 @@
             <VerticalStackLayout Spacing="8">
                 <Label Text="Dodaj nowy przepis" FontAttributes="Bold" />
                 <Entry Placeholder="Nazwa przepisu" Text="{Binding NewRecipeName}" />
+                <Label Text="Dodaj opis do przepisu" FontAttributes="Bold" />
+                <Entry Placeholder="Opis przepisu" Text="{Binding NewRecipeDescription}" />
 
                 <HorizontalStackLayout Spacing="8">
                     <Entry Placeholder="Składnik (nazwa)" Text="{Binding NewIngredientName}" HorizontalOptions="FillAndExpand" />
@@ -54,6 +56,7 @@
                     <Border StrokeThickness="1" Padding="8" Margin="0,0,0,8">
                         <VerticalStackLayout>
                             <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Text="{Binding Description}" FontAttributes="Bold" />
                             <Picker Title="Do której listy dodać?"
                                     ItemsSource="{Binding Source={x:Reference RootPage}, Path=BindingContext.Lists}"
                                     SelectedItem="{Binding TargetList}"

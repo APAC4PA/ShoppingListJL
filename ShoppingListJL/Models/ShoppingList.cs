@@ -74,7 +74,8 @@ namespace ShoppingListJL.Models
                                 new XElement("Quantity", p.Quantity),
                                 new XElement("Unit", p.Unit),
                                 new XElement("Optional", p.Optional),
-                                new XElement("Store", p.Store ?? string.Empty)
+                                new XElement("Store", p.Store ?? string.Empty),
+                                new XElement("Bought", p.Bought)
                             )
                         )
                     )
@@ -114,8 +115,9 @@ namespace ShoppingListJL.Models
                         Name = pEl.Element("Name")?.Value ?? "",
                         Quantity = pEl.Element("Quantity")?.Value ?? "",
                         Unit = pEl.Element("Unit")?.Value ?? "",
-                        Optional = pEl.Element("Optional")?.Value ?? "",
-                        Store = pEl.Element("Store")?.Value ?? ""
+                        Optional = bool.Parse(pEl.Element("Optional")?.Value),
+                        Store = pEl.Element("Store")?.Value ?? "",
+                        Bought = bool.Parse(pEl.Element("Bought")?.Value)
                     });
                 }
 
@@ -154,8 +156,9 @@ namespace ShoppingListJL.Models
                             Name = pEl.Element("Name")?.Value ?? "",
                             Quantity = pEl.Element("Quantity")?.Value ?? "",
                             Unit = pEl.Element("Unit")?.Value ?? "",
-                            Optional = pEl.Element("Optional")?.Value ?? "",
-                            Store = pEl.Element("Store")?.Value ?? ""
+                            Optional = bool.Parse(pEl.Element("Optional")?.Value),
+                            Store = pEl.Element("Store")?.Value ?? "",
+                            Bought = bool.Parse(pEl.Element("Bought")?.Value)
                         });
                     }
 

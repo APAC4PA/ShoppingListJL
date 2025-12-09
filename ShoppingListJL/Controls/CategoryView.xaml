@@ -9,7 +9,7 @@
         <ViewModels:ProductsViewModel x:Key="ProductsVM" />
     </ContentView.Resources>
 
-    <VerticalStackLayout Padding="16" Spacing="12" HorizontalOptions="FillAndExpand">
+    <VerticalStackLayout Padding="16" Spacing="12" HorizontalOptions="Fill">
         <Border Stroke="MediumPurple"
                 StrokeThickness="3"
                 StrokeShape="RoundRectangle 12"

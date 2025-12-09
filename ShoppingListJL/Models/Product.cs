@@ -13,8 +13,9 @@ namespace ShoppingListJL.Models
         private string _name = string.Empty;
         private string _quantity = string.Empty;
         private string _unit = string.Empty;
-        private string _optional = "False";
+        private bool _optional = false;
         private string _store = string.Empty;
+        private bool _bought = false;
 
         public string Name
         {
@@ -31,7 +32,7 @@ namespace ShoppingListJL.Models
             get => _unit;
             set => SetProperty(ref _unit, value);
         }
-        public string Optional
+        public bool Optional
         {
             get => _optional;
             set => SetProperty(ref _optional, value);
@@ -41,9 +42,15 @@ namespace ShoppingListJL.Models
             get => _store;
             set => SetProperty(ref _store, value);
         }
+        public bool Bought
+        {
+            get => _bought;
+            set => SetProperty(ref _bought, value);
+        }
 
         public void MarkProductAsBought(string listName, string categoryName, string productName)
         {
+            Bought = !Bought;
             string filePath = Path.Combine(FileSystem.AppDataDirectory, "shoppinglists.xml");
             if (!File.Exists(filePath))
                 throw new FileNotFoundException(filePath);
@@ -76,18 +83,10 @@ namespace ShoppingListJL.Models
             if (productEl == null)
                 throw new Exception($"Product '{productName}' not found.");
 
-            var nameEl = productEl.Element("Name");
+            var boughtEl = productEl.Element("Bought");
+            boughtEl.Value = Bought.ToString();
 
-            if (nameEl != null && !nameEl.Value.Contains("✓"))
-            {
-                nameEl.Value = $"{nameEl.Value} | ✓ |";
-                doc.Save(filePath);
-            }
-            else if (nameEl.Value.Contains("✓"))
-            {
-                nameEl.Value = nameEl.Value.Replace(" | ✓ |", string.Empty);
-                doc.Save(filePath);
-            }
+            doc.Save(filePath);
         }
         public void DeleteProduct(string listName, string categoryName, string productName)
         {

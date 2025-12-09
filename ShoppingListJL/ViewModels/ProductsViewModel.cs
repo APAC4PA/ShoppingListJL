@@ -45,6 +45,8 @@ namespace ShoppingListJL.ViewModels
         public bool IsOptional { get => _isOptional; set => SetProperty(ref _isOptional, value); }
         private string _newStore = string.Empty;
         public string NewStore { get => _newStore; set => SetProperty(ref _newStore, value); }
+        private bool _isBought = false;
+        public bool IsBought { get => _isBought; set => SetProperty(ref _isBought, value); }
 
         public ProductsViewModel()
         {
@@ -77,6 +79,7 @@ namespace ShoppingListJL.ViewModels
         private async Task OptionalItem(Product p)
         {
             if (p == null) return;
+            p.Optional = !p.Optional;
             Trace.WriteLine("Toggling optional for item: " + p.Name + " to " + p.Optional);
             _list?.Save();
             await Shell.Current.GoToAsync($"../{nameof(Views.CategoryPage)}?load={_list?.Name}");
@@ -125,8 +128,9 @@ namespace ShoppingListJL.ViewModels
                 Name = NewName,
                 Quantity = NewQuantity,
                 Unit = NewUnit,
-                Optional = IsOptional.ToString(),
-                Store = NewStore ?? string.Empty
+                Optional = IsOptional,
+                Store = NewStore ?? string.Empty,
+                Bought = IsBought
             };
 
             _category.AddProduct(product);

@@ -3,16 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShoppingListJL.Controls.ProductView"
              xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
-             xmlns:converters="clr-namespace:ShoppingListJL.Converters;assembly=ShoppingListJL"
              x:Name="root">
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <converters:StringBoolConverter x:Key="StringBoolConverter" />
-        </ResourceDictionary>
-    </ContentView.Resources>
 
     <HorizontalStackLayout Spacing="8" Padding="6" VerticalOptions="Center">
-        <Label Text="{Binding Name}" FontAttributes="Bold" VerticalOptions="Center" />
+        <Frame Padding="0" BackgroundColor="Transparent" BorderColor="Transparent">
+        <VerticalStackLayout Spacing="8" Padding="6" VerticalOptions="Center">
+                <Label Text="{Binding Name}" FontSize="20">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding Bought}" Value="True">
+                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                            <Setter Property="TextColor" Value="Grey"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                <Label Text="Opcjonalne" TextColor="Orange" FontSize="12">
+                <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding Optional}" Value="False">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+        </VerticalStackLayout>
+        </Frame>
         <Editor Text="{Binding Quantity}" VerticalOptions="Center" WidthRequest="60"/>
         <Button Text="+"
                 Command="{Binding IncrementQuantityCommand, Source={x:Reference root}}"
@@ -27,17 +39,6 @@
         <Label Text="{Binding Unit}" VerticalOptions="Center" />
         <Label Text="{Binding Store}" VerticalOptions="Center" HorizontalOptions="Start" />
 
-        <CheckBox x:Name="OptionalRadio"
-                  VerticalOptions="Center"
-                  IsChecked="{Binding Optional, Converter={StaticResource StringBoolConverter}, Mode=TwoWay}">
-            <CheckBox.Behaviors>
-                <behaviors:EventToCommandBehavior
-                    EventName="CheckedChanged"
-                    Command="{Binding OptionalItemCommand, Source={x:Reference root}}"
-                    CommandParameter="{Binding .}" />
-            </CheckBox.Behaviors>
-        </CheckBox>
-
         <Button Text="✓"
                 Command="{Binding CheckCommand, Source={x:Reference root}}"
                 CommandParameter="{Binding .}"
@@ -49,6 +50,12 @@
                 CommandParameter="{Binding .}"
                 BackgroundColor="Transparent"
                 TextColor="Red"
+                VerticalOptions="Center" />
+        <Button Text="Make optional"
+                Command="{Binding OptionalItemCommand, Source={x:Reference root}}"
+                CommandParameter="{Binding .}"
+                BackgroundColor="Transparent"
+                TextColor="Orange"
                 VerticalOptions="Center" />
     </HorizontalStackLayout>
 </ContentView>
