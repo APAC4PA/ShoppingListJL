@@ -42,14 +42,13 @@ namespace ShoppingListJL.Controls
         {
             base.OnBindingContextChanged();
 
-            if (Resources.TryGetValue("ProductsVM", out var vmObj) &&
-                vmObj is ProductsViewModel vm &&
-                BindingContext is Category cat)
+            if (Resources.TryGetValue("ProductsVM", out var vmObj) && // Try to get the "ProductsVM" resource from the control's Resources dictionary
+                vmObj is ProductsViewModel vm &&                      // Ensure the resource is of type ProductsViewModel and cast it to vm
+                BindingContext is Category cat)                       // Ensure the current BindingContext is a Category and cast it to cat
             {
-                vm.Category = cat;
-                vm.List = cat.ParentList;
+                vm.Category = cat;            // Assign the current category to the ProductsViewModel
+                vm.List = cat.ParentList;     // Assign the parent shopping list so the ViewModel has list context
             }
         }
-
     }
 }

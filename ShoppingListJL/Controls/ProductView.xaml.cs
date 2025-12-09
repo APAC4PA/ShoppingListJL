@@ -50,15 +50,15 @@ public partial class ProductView : ContentView
 		set => SetValue(DecrementQuantityCommandProperty, value);
 	}
     public static readonly BindableProperty OptionalItemCommandProperty =
-        BindableProperty.Create( // Tworzy w³aœciwoœæ wi¹zaln¹
-            nameof(OptionalItemCommand), // Nazwa w³aœciwoœci
-            typeof(ICommand), // Typ w³aœciwoœci (komenda)
-            typeof(ProductView), // W³aœciciel w³aœciwoœci (ta kontrolka)
-            default(ICommand)); // Wartoœæ domyœlna (null)
+        BindableProperty.Create( // Creates a bindable property
+            nameof(OptionalItemCommand), // Property name
+            typeof(ICommand), // Property type (command)
+            typeof(ProductView), // Property owner (this control)
+            default(ICommand)); // Default value (null)
 
     public ICommand OptionalItemCommand
     {
-        get => (ICommand)GetValue(OptionalItemCommandProperty); // Pobiera komendê z OptionalItemCommandProperty(ProductView)
-        set => SetValue(OptionalItemCommandProperty, value); // Ustawia komendê w OptionalItemCommandProperty(ProductView)
+        get => (ICommand)GetValue(OptionalItemCommandProperty); // Gets the command from OptionalItemCommandProperty (ProductView)
+        set => SetValue(OptionalItemCommandProperty, value); // Sets the command in OptionalItemCommandProperty (ProductView)
     }
 }
