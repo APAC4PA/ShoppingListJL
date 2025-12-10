@@ -30,7 +30,10 @@ namespace ShoppingListJL.Models
             {
                 p.Name += $" ({NbrOfCopies})";
             }
-            Products.Add(p);
+            if (!p.Bought)
+                Products.Insert(0, p);
+            else
+                Products.Add(p);
             ParentList?.Save();
         }
         public void DeleteCategory(string listName, string categoryName)

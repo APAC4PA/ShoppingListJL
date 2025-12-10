@@ -14,8 +14,8 @@
             <VerticalStackLayout Spacing="8">
                 <Label Text="Dodaj nowy przepis" FontAttributes="Bold" />
                 <Entry Placeholder="Nazwa przepisu" Text="{Binding NewRecipeName}" />
-                <Label Text="Dodaj opis do przepisu" FontAttributes="Bold" />
-                <Entry Placeholder="Opis przepisu" Text="{Binding NewRecipeDescription}" />
+                <Label Text="Dodaj instrukcje do przygotowania przepisu" FontAttributes="Bold" />
+                <Editor Placeholder="Instrukcja przepisu" Text="{Binding NewRecipeDescription}" AutoSize="TextChanges"/>
 
                 <HorizontalStackLayout Spacing="8">
                     <Entry Placeholder="Składnik (nazwa)" Text="{Binding NewIngredientName}" HorizontalOptions="FillAndExpand" />

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ShoppingListJL.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ShoppingListJL.ViewModels
 {
@@ -119,10 +121,10 @@ namespace ShoppingListJL.ViewModels
         {
             if (string.IsNullOrWhiteSpace(NewName))
                 NewName = "Unnamed Product";
-            if (string.IsNullOrWhiteSpace(NewQuantity))
-                NewQuantity = "Not specified";
             if (string.IsNullOrWhiteSpace(NewUnit))
                 NewUnit = "Not specified";
+            if(!int.TryParse(NewQuantity, out int q) || string.IsNullOrWhiteSpace(NewQuantity))
+                NewQuantity = "0";
             var product = new Product
             {
                 Name = NewName,
@@ -143,16 +145,31 @@ namespace ShoppingListJL.ViewModels
         }
         private async Task CheckItem(Product product)
         {
-            product.MarkProductAsBought(_list.Name, _category.Name, product.Name);
+            product.MarkProductAsBought(_list.Name, _category, product.Name);
+            ChangeOrder(product);
             await Shell.Current.GoToAsync($"../{nameof(Views.CategoryPage)}?load={_list.Name}");
         }
         private async Task DeleteItem(Product product)
         {
             Trace.WriteLine($"Deleting product: {product.Name}");
-            bool ok = await App.Current.MainPage.DisplayAlert("Usuń", $"Usunąć kategorię '{product.Name}'?", "Tak", "Nie");
+            bool ok = await App.Current.MainPage.DisplayAlert("Usuń", $"Usunąć produkt '{product.Name}'?", "Tak", "Nie");
             if (!ok) return;
-            product.DeleteProduct(_list.Name, _category.Name, product.Name);
+            product.DeleteProduct(_list.Name, _category, product);
             await Shell.Current.GoToAsync($"../{nameof(Views.CategoryPage)}?load={_list.Name}");
+        }
+        private void ChangeOrder(Product product)
+        { 
+            product.DeleteProduct(_list.Name, _category, product);
+            var productData = new Product
+            {
+                Name = product.Name,
+                Quantity = product.Quantity,
+                Unit = product.Unit,
+                Optional = product.Optional,
+                Store = product.Store,
+                Bought = product.Bought
+            };
+            _category.AddProduct(productData);
         }
     }
 }

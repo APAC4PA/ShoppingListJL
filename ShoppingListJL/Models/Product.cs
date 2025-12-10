@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Maui.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Diagnostics;
 
 namespace ShoppingListJL.Models
 {
@@ -48,7 +49,7 @@ namespace ShoppingListJL.Models
             set => SetProperty(ref _bought, value);
         }
 
-        public void MarkProductAsBought(string listName, string categoryName, string productName)
+        public void MarkProductAsBought(string listName, Category category, string productName)
         {
             Bought = !Bought;
             string filePath = Path.Combine(FileSystem.AppDataDirectory, "shoppinglists.xml");
@@ -69,10 +70,10 @@ namespace ShoppingListJL.Models
                 .Element("Categories")?
                 .Elements("Category")
                 .FirstOrDefault(x =>
-                    string.Equals(x.Element("Name")?.Value, categoryName, StringComparison.OrdinalIgnoreCase));
+                    string.Equals(x.Element("Name")?.Value, category.Name, StringComparison.OrdinalIgnoreCase));
 
             if (categoryEl == null)
-                throw new Exception($"Category '{categoryName}' not found.");
+                throw new Exception($"Category '{category.Name}' not found.");
 
             var productEl = categoryEl
                 .Element("Products")?
@@ -88,7 +89,7 @@ namespace ShoppingListJL.Models
 
             doc.Save(filePath);
         }
-        public void DeleteProduct(string listName, string categoryName, string productName)
+        public void DeleteProduct(string listName, Category category, Product product)
         {
             string filePath = Path.Combine(FileSystem.AppDataDirectory, "shoppinglists.xml");
             if (!File.Exists(filePath))
@@ -104,17 +105,18 @@ namespace ShoppingListJL.Models
                 .Element("Categories")?
                 .Elements("Category")
                 .FirstOrDefault(x =>
-                    string.Equals(x.Element("Name")?.Value, categoryName, StringComparison.OrdinalIgnoreCase));
+                    string.Equals(x.Element("Name")?.Value, category.Name, StringComparison.OrdinalIgnoreCase));
             if (categoryEl == null)
-                throw new Exception($"Category '{categoryName}' not found.");
+                throw new Exception($"Category '{category.Name}' not found.");
             var productEl = categoryEl
                 .Element("Products")?
                 .Elements("Product")
                 .FirstOrDefault(x =>
-                    string.Equals(x.Element("Name")?.Value, productName, StringComparison.OrdinalIgnoreCase));
+                    string.Equals(x.Element("Name")?.Value, product.Name, StringComparison.OrdinalIgnoreCase));
             if (productEl == null)
-                throw new Exception($"Product '{productName}' not found.");
+                throw new Exception($"Product '{product.Name}' not found.");
             productEl.Remove();
+            category.Products.Remove(product);
             doc.Save(filePath);
         }
     }

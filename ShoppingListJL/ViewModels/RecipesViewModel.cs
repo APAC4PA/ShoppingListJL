@@ -34,11 +34,11 @@ namespace ShoppingListJL.ViewModels
             get => _newRecipeName;
             set => SetProperty(ref _newRecipeName, value);
         }
-        private string _newRecipeDescription = string.Empty;
-        public string NewRecipeDescription
+        private string _NewRecipeInstruction = string.Empty;
+        public string NewRecipeInstruction
         {
-            get => _newRecipeDescription;
-            set => SetProperty(ref _newRecipeDescription, value);
+            get => _NewRecipeInstruction;
+            set => SetProperty(ref _NewRecipeInstruction, value);
         }
 
         private string _newIngredientName = string.Empty;
@@ -150,10 +150,10 @@ namespace ShoppingListJL.ViewModels
         {
             if (string.IsNullOrWhiteSpace(NewRecipeName) || NewIngredients.Count == 0) return;
 
-            var recipe = new Recipe(NewRecipeName, NewRecipeDescription, NewIngredients.ToList());
+            var recipe = new Recipe(NewRecipeName, NewRecipeInstruction, NewIngredients.ToList());
             Recipes.Add(recipe);
-
             NewRecipeName = string.Empty;
+            NewRecipeInstruction = string.Empty;
             NewIngredients.Clear();
         }
 
