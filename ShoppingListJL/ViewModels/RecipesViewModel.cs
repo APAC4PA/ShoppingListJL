@@ -94,13 +94,13 @@ namespace ShoppingListJL.ViewModels
                 Trace.WriteLine("B³¹d ³adowania list zakupów.");
             }
 
-            Recipes.Add(new Recipe("Naleœniki", "Opis przepisu na naleœniki", new[]
+            Recipes.Add(new Recipe("Naleœniki", "Instrukcja przepisu na naleœniki", new[]
             {
                 new Product { Name = "M¹ka", Quantity = "200", Unit = "g", Optional = false, Store = "Biedronka" },
                 new Product { Name = "Mleko", Quantity = "300", Unit = "ml", Optional = false, Store = "Biedronka" },
                 new Product { Name = "Jajko", Quantity = "2", Unit = "szt", Optional = false, Store = "Biedronka" }
             }));
-            Recipes.Add(new Recipe("Sa³atka grecka", "Opis przepisu na sa³atkê greck¹", new[]
+            Recipes.Add(new Recipe("Sa³atka grecka", "Instrukcja przepisu na sa³atkê greck¹", new[]
             {
                 new Product { Name = "Pomidor", Quantity = "2", Unit = "szt", Optional = false, Store = "Lidl" },
                 new Product { Name = "Ogórek", Quantity = "1", Unit = "szt", Optional = false, Store = "Lidl" },
@@ -149,10 +149,10 @@ namespace ShoppingListJL.ViewModels
         private void CreateRecipe()
         {
             if (string.IsNullOrWhiteSpace(NewRecipeName) || NewIngredients.Count == 0) return;
-
             var recipe = new Recipe(NewRecipeName, NewRecipeInstruction, NewIngredients.ToList());
+            Trace.WriteLine($"Recipe created: {recipe.Name} with {recipe.Instruction}");
             Recipes.Add(recipe);
-            NewRecipeName = string.Empty;
+            NewRecipeName = string.Empty;   
             NewRecipeInstruction = string.Empty;
             NewIngredients.Clear();
         }

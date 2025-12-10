@@ -22,14 +22,15 @@
         <CollectionView x:Name="CategoriesCollectionView"
                         Grid.Row="2"
                         ItemsSource="{Binding Categories}"
-                        Margin="12">
+                        ItemsLayout="VerticalList"
+                        Margin="12"
+                        HorizontalOptions="FillAndExpand">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <HorizontalStackLayout Spacing="12" Padding="6">
-                        <controls:CategoryView
-                            BindingContext="{Binding .}"
-                            DeleteCategoryCommand="{Binding BindingContext.DeleteCategoryCommand, Source={x:Reference CategoriesCollectionView}}" />
-                    </HorizontalStackLayout>
+                    <controls:CategoryView
+                        BindingContext="{Binding .}"
+                        HorizontalOptions="FillAndExpand"
+                        DeleteCategoryCommand="{Binding BindingContext.DeleteCategoryCommand, Source={x:Reference CategoriesCollectionView}}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

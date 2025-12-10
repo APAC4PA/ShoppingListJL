@@ -4,26 +4,28 @@
              xmlns:ViewModels="clr-namespace:ShoppingListJL.ViewModels"
              xmlns:controls="clr-namespace:ShoppingListJL.Controls"
              x:Class="ShoppingListJL.Controls.CategoryView"
-             x:Name="root">
+             x:Name="root"
+             HorizontalOptions="FillAndExpand">
     <ContentView.Resources>
         <ViewModels:ProductsViewModel x:Key="ProductsVM" />
     </ContentView.Resources>
 
-    <VerticalStackLayout Padding="16" Spacing="12" HorizontalOptions="Fill">
+    <VerticalStackLayout Padding="16" Spacing="12" HorizontalOptions="FillAndExpand">
         <Border Stroke="MediumPurple"
                 StrokeThickness="3"
                 StrokeShape="RoundRectangle 12"
                 BackgroundColor="Transparent"
                 Padding="12"
                 HorizontalOptions="FillAndExpand">
-            <VerticalStackLayout Spacing="10">
+            <VerticalStackLayout Spacing="10" HorizontalOptions="FillAndExpand">
                 <Grid ColumnDefinitions="*, Auto, Auto" Padding="0,4">
                     <Label
                         Text="{Binding Name}"
                         FontSize="18"
                         FontAttributes="Bold"
                         VerticalOptions="Center"
-                        HorizontalTextAlignment="Start"/>
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"/>
                     <Button
                         Grid.Column="1"
                         Text="Usuń"
@@ -41,11 +43,14 @@
                         TextColor="Blue"
                         VerticalOptions="Center"/>
                 </Grid>
-
+                
                 <CollectionView x:Name="ItemsCollection"
                               ItemsSource="{Binding Products}"
                               IsVisible="{Binding Source={StaticResource ProductsVM}, Path=IsShown}"
-                              SelectionMode="None">
+                              SelectionMode="None"
+                              ItemsLayout="VerticalList"
+                              HorizontalOptions="FillAndExpand"
+                              Margin="0">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <controls:ProductView BindingContext="{Binding}"
